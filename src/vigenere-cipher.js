@@ -10,22 +10,26 @@ class VigenereCipheringMachine {
   }
 
   encrypt(text, key) {
+    if (!text || !key) {
+      throw new Error("Not enough informaion.");
+    }
+
     text = text.toUpperCase();
     key = key.toUpperCase();
     let answer = [];
-    let couterLetter = 0;
+    let count = 0;
 
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     for (let i = 0; i < text.length; i++) {
       if (alphabet.indexOf(text[i]) !== -1) {
-        let indexLetterCipherWord =
+        let x =
           (alphabet.indexOf(text[i]) +
-            alphabet.indexOf(key[couterLetter % key.length])) %
+            alphabet.indexOf(key[count % key.length])) %
           alphabet.length;
-        let cipherLetter = alphabet[indexLetterCipherWord];
-        answer.push(cipherLetter);
-        couterLetter++;
+        let cipher = alphabet[x];
+        answer.push(cipher);
+        count++;
       } else {
         answer.push(text[i]);
       }
@@ -33,25 +37,29 @@ class VigenereCipheringMachine {
     return this.dir ? answer.join("") : answer.reverse().join("");
   }
   decrypt(cipher, key) {
+    if (!cipher || !key) {
+      throw new Error();
+    }
+
     cipher = cipher.toUpperCase();
     key = key.toUpperCase();
 
     let text = [];
-    let couterLetter = 0;
+    let count = 0;
 
     const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     for (let i = 0; i < cipher.length; i++) {
       if (alphabet.indexOf(cipher[i]) !== -1) {
-        let indexLettertext =
+        let x =
           (alphabet.indexOf(cipher[i]) +
             alphabet.length -
-            alphabet.indexOf(key[couterLetter % key.length])) %
+            alphabet.indexOf(key[count % key.length])) %
           alphabet.length;
 
-        let currentLetter = alphabet[indexLettertext];
-        text.push(currentLetter);
-        couterLetter++;
+        let deciphed = alphabet[x];
+        text.push(deciphed);
+        count++;
       } else {
         text.push(cipher[i]);
       }
